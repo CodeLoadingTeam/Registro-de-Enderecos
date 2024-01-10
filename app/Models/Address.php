@@ -24,7 +24,7 @@ class Address
             DB::insert(
                 'INSERT INTO enderecos (cep, logradouro, complemento, bairro, cidade, numero, uf, ibge, ddd) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                 [
-                    $addressProperty['cep'],
+                    $postalCode,
                     $addressProperty['logradouro'],
                     $addressProperty['complemento'],
                     $addressProperty['bairro'],
@@ -34,7 +34,7 @@ class Address
                     $addressProperty['ibge'],
                     $addressProperty['ddd']
                 ]
-            ); 
+            );
         } catch (\Exception $e) {
             return $e->getMessage();
         }
