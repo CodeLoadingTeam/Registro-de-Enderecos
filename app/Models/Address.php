@@ -2,18 +2,50 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\FlareClient\Http\Exceptions\NotFound;
+use App\Exceptions\AddressAlreadyExistsException;
+use App\Exceptions\AddressNullFieldsException;
+use Illuminate\Support\Facades\DB;
 
-class Address extends Model
-{
-    use HasFactory;
-
-    public function store(array $addressProperty): void
+class Address
+{  
+    public function store(array $addressProperty): string
     {
-        if (empty($addressProperty['cep'])) {
-            throw new NotFound();
+        $postalCode = $addressProperty['cep'];
+
+        if (empty($postalCode) || empty($addressProperty['numero'])) {
+            throw new AddressNullFieldsException();
         }
+
+        if ($this->areThereAPostalCode($postalCode)) {
+            throw new AddressAlreadyExistsException();
+        }
+
+        try {
+            DB::insert(
+                'INSERT INTO enderecos (cep, logradouro, complemento, bairro, cidade, numero, uf, ibge, ddd) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                [
+                    $postalCode,
+                    $addressProperty['logradouro'],
+                    $addressProperty['complemento'],
+                    $addressProperty['bairro'],
+                    $addressProperty['localidade'],
+                    $addressProperty['numero'],
+                    $addressProperty['uf'],
+                    $addressProperty['ibge'],
+                    $addressProperty['ddd']
+                ]
+            );
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        return 'ok';
+    }
+
+    private function areThereAPostalCode(string $postalCode): bool
+    {
+        $address = DB::select('SELECT * FROM enderecos e WHERE e.cep = ?', [$postalCode]);
+
+        return !empty($address) ? true : false;
     }
 }
