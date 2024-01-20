@@ -11,12 +11,13 @@ class Address
     public function store(array $addressProperty): string
     {
         $postalCode = $addressProperty['cep'];
+        $number = $addressProperty['numero'];
 
-        if (empty($postalCode) || empty($addressProperty['numero'])) {
+        if (empty($postalCode) || empty($number)) {
             throw new AddressNullFieldsException();
         }
 
-        if ($this->areThereAPostalCode($postalCode)) {
+        if (!$this->areThereAPostalCode($postalCode)) {
             throw new AddressAlreadyExistsException();
         }
 

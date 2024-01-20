@@ -35,4 +35,4 @@ Route::get('/inicio', function () {
 // });
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-Route::get('/endereco/salvar', [AddressController::class, 'storeAddress']);
+

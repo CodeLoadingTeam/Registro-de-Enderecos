@@ -17,6 +17,8 @@ class AddressController extends Controller
 
     public function storeAddress(Request $request): string // View
     {
+        dd($request->all());
+        //dd('teste request');
         $addressProperty = $request->only([
             'cep',
             'logradouro',
@@ -29,8 +31,12 @@ class AddressController extends Controller
             'ddd'
         ]);
 
-        return $this->address->store($addressProperty);
+        dd($addressProperty);
+        //dd('teste property');
 
+        return $this->address->store($addressProperty);
+        
         // return view('home');
     }
+
 }
