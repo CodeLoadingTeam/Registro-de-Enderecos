@@ -15,19 +15,14 @@ class AddressController extends Controller
         $this->address = new Address();
     }
 
-    public function storeAddress(Request $request): string // View
+    public function storeAddress(Request $request): string
     {
-        dd(
-            $request->all()
-            
-        );
-
         $addressProperty = $request->only([
-        'cep',
-        'logradouro',
-        'complemento',
-        'bairro',
-        'localidade',
+            'cep',
+            'logradouro',
+            'complemento',
+            'bairro',
+            'localidade',
             'numero',
             'uf',
             'ibge',
@@ -35,11 +30,8 @@ class AddressController extends Controller
         ]);
 
         dd($addressProperty);
-        //dd('teste property');
 
         return $this->address->store($addressProperty);
-        
-        // return view('home');
     }
 
 }
