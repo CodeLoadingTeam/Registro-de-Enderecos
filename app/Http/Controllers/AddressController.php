@@ -17,14 +17,17 @@ class AddressController extends Controller
 
     public function storeAddress(Request $request): string // View
     {
-        dd($request->all());
-        //dd('teste request');
+        dd(
+            $request->all()
+            
+        );
+
         $addressProperty = $request->only([
-            'cep',
-            'logradouro',
-            'complemento',
-            'bairro',
-            'localidade',
+        'cep',
+        'logradouro',
+        'complemento',
+        'bairro',
+        'localidade',
             'numero',
             'uf',
             'ibge',
